@@ -7,7 +7,7 @@ import org.hibernate.validator.constraints.Length;
 public class Message {
     private int id;
     @NotNull
-    @Length(max=10)
+    @Length(max=100)
     private String message;
     private boolean isDeleted;
     
