@@ -24,8 +24,11 @@ public class UserResource {
     
     @GET
     @PermitAll
-    @Path("{email}")
-    public Response getUser(@PathParam("email") String email) {
+    @Path("{id}")
+    public Response getUser(@PathParam("id") Integer id) {
+    	User usr = DataStore.idToUser.get(id);
+    	if (usr == null) return Response.status(404).build();
+    	String email = usr.getEmail();
         if (email.equals(getUserEmail())) {
             User user = DataStore.users.get(email);
             if (user == null) {
@@ -40,8 +43,11 @@ public class UserResource {
 
     @PUT
     @PermitAll
-    @Path("{email}")
-    public Response modifyUser(@PathParam("email") String email, User user) {
+    @Path("{id}")
+    public Response modifyUser(@PathParam("id") Integer id, User user) {
+    	User usr = DataStore.idToUser.get(id);
+    	if (usr == null) return Response.status(404).build();
+    	String email = usr.getEmail();
         if (email.equals(getUserEmail())) {
             User old = DataStore.users.get(email);
             if (old == null) {

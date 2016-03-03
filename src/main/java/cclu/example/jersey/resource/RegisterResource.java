@@ -25,7 +25,9 @@ public class RegisterResource {
             return Response.status(400).build();
         } else {
             user.setRole(Role.GeneralUser);
+            user.setId(DataStore.userSeq.getAndIncrement());
             DataStore.users.put(user.getEmail(), user);
+            DataStore.idToUser.put(user.getId(), user);
             return Response.ok(user).build();
         }
     }

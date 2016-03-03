@@ -44,15 +44,18 @@ public class MessageResource {
     @PermitAll
     public Response getMessage(@PathParam("id") Integer id) {
         ArrayList<Message> msgs = getUserMessageList();
-        Message msg = msgs.get(id);
-        return Response.ok(msg).build();
+        for (Message msg : msgs) {
+        	if (msg.getId() == id)
+                return Response.ok(msg).build();
+        }
+        return Response.status(404).build();
     }
     
     @POST
     @PermitAll
     public Response addMessage(@Valid@NotNull Message msg) {
         ArrayList<Message> msgs = getUserMessageList();
-        msg.setId(msgs.size());
+        msg.setId(DataStore.msgSeq.getAndIncrement());
         msgs.add(msg);
 
         return Response.ok(msg).build();
@@ -63,10 +66,16 @@ public class MessageResource {
     @PermitAll
     public Response deleteMessage(@PathParam("id") Integer id) {
         ArrayList<Message> msgs = getUserMessageList();
-        Message msg = msgs.get(id);
-        msg.setDeleted();
+        Message msg = null;
+        for (int i=0; i < msgs.size(); ++i) {
+        	msg = msgs.get(id);
+        	if (msg.getId() == id) {
+                msg.setDeleted();
+        		return Response.ok(msg).build();
+        	}
+        }
         
-        return Response.ok(msg).build();
+        return Response.status(404).build();
     }
 
     private String getUserEmail() {

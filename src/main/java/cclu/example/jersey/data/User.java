@@ -5,6 +5,7 @@ import javax.validation.constraints.NotNull;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 public class User {
+	private int id;
     @NotNull
     private String email;
     @NotNull
@@ -44,4 +45,10 @@ public class User {
     public void setRole(Role role) {
         this.role = role;
     }
+	public int getId() {
+		return id;
+	}
+	public void setId(int id) {
+		this.id = id;
+	}
 }
