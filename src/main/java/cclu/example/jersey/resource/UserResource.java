@@ -30,12 +30,7 @@ public class UserResource {
     	if (usr == null) return Response.status(404).build();
     	String email = usr.getEmail();
         if (email.equals(getUserEmail())) {
-            User user = DataStore.users.get(email);
-            if (user == null) {
-                return Response.status(404).build();
-            } else {
-                return Response.ok(user).build();
-            }
+            return Response.ok(usr).build();
         }
         
         return Response.status(401).build();
@@ -45,18 +40,13 @@ public class UserResource {
     @PermitAll
     @Path("{id}")
     public Response modifyUser(@PathParam("id") Integer id, User user) {
-    	User usr = DataStore.idToUser.get(id);
-    	if (usr == null) return Response.status(404).build();
-    	String email = usr.getEmail();
+    	User old = DataStore.idToUser.get(id);
+    	if (old == null) return Response.status(404).build();
+    	String email = old.getEmail();
         if (email.equals(getUserEmail())) {
-            User old = DataStore.users.get(email);
-            if (old == null) {
-                return Response.status(404).build();
-            } else {
-                old.setFirstName(user.getFirstName());
-                old.setLastName(user.getLastName());
-                return Response.ok(old).build();
-            }
+            old.setFirstName(user.getFirstName());
+            old.setLastName(user.getLastName());
+            return Response.ok(old).build();
         }
 
         return Response.status(401).build();

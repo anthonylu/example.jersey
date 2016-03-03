@@ -2,7 +2,6 @@ package cclu.example.jersey.resource;
 
 import java.io.IOException;
 import java.lang.reflect.Method;
-import java.security.Principal;
 
 import javax.annotation.Priority;
 import javax.annotation.security.PermitAll;
